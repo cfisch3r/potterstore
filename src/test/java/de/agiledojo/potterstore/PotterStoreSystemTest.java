@@ -28,10 +28,11 @@ public class PotterStoreSystemTest {
     public void singlePriceIsReturnedForOneBook() {
         given()
                 .port(port)
+                .body("[{\"id\": \"book1\"}]")
         .when()
                 .post("/price")
         .then().assertThat()
-                .body("amount", response -> equalTo("8"))
+                .body("amount", response -> equalTo(8))
                 .body("currency", value -> equalTo("€"));
     }
 }
