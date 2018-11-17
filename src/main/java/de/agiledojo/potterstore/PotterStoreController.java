@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,8 +20,8 @@ public class PotterStoreController {
     }
 
     @RequestMapping(method= RequestMethod.POST,path="/price")
-    public Price price(@RequestBody List<BookId> bookIds) {
-        return priceCalculation.priceFor(bookIds);
+    public Price price(@RequestBody List<JSONBookId> bookIds) {
+        return priceCalculation.priceFor(new ArrayList<BookId>(bookIds));
     }
 
 }

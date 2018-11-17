@@ -28,7 +28,7 @@ public class PotterStoreSystemTest {
     public void singlePriceIsReturnedForOneBook() {
         given()
                 .port(port)
-                .body("[{\"id\": \"book1\"}]")
+                .body(new PriceRequest("book1").json())
         .when()
                 .post("/price")
         .then().assertThat()

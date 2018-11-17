@@ -14,10 +14,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -36,8 +35,12 @@ public class PotterStoreControllerIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
+        setCalculatedPrice(8);
+    }
+
+    private void setCalculatedPrice(int amount) {
         when(priceCalculation.priceFor(ArgumentMatchers.anyList()))
-                .thenReturn(new Price(new BigDecimal(8)));
+                .thenReturn(new Price(new BigDecimal(amount)));
     }
 
     @Test
@@ -62,15 +65,13 @@ public class PotterStoreControllerIntegrationTest {
     @Test
     public void idFromRequestIsPassedToPriceCalculation() throws Exception {
         sendRequestForPrice("book1");
-        verify(priceCalculation).priceFor(eq(List.of(new BookId("book1"))));
+        verify(priceCalculation).priceFor(argThat(bookIds ->
+                bookIds.size() == 1 && bookIds.get(0).getId().equals("book1")));
     }
 
     private ResultActions sendRequestForPrice(String bookId) throws Exception {
         return mvc.perform(MockMvcRequestBuilders.post("/price").accept(APPLICATION_JSON)
-                .contentType(APPLICATION_JSON).content(jsonMessage(bookId)));
+                .contentType(APPLICATION_JSON).content(new PriceRequest(bookId).json()));
     }
 
-    private String jsonMessage(String bookId) {
-        return "[{\"id\": \""+ bookId +"\"}]";
-    }
 }
