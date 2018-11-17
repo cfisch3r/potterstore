@@ -47,13 +47,13 @@ public class PotterStoreControllerIntegrationTest {
 
     @Test
     public void responseHasStatusCodeOK() throws Exception {
-        sendRequestForPrice()
+        sendRequestForPrice("book1")
                 .andExpect(status().isOk());
     }
 
     @Test
     public void calculatedPriceIsSentAsJSON() throws Exception {
-        sendRequestForPrice()
+        sendRequestForPrice("book1")
                 .andExpect(jsonPath("$.amount", is(8)))
                 .andExpect(jsonPath("$.currency", is("€")));
     }
@@ -61,16 +61,16 @@ public class PotterStoreControllerIntegrationTest {
 
     @Test
     public void idFromRequestIsPassedToPriceCalculation() throws Exception {
-        sendRequestForPrice();
+        sendRequestForPrice("book1");
         verify(priceCalculation).priceFor(eq(List.of(new BookId("book1"))));
     }
 
-    private ResultActions sendRequestForPrice() throws Exception {
+    private ResultActions sendRequestForPrice(String bookId) throws Exception {
         return mvc.perform(MockMvcRequestBuilders.post("/price").accept(APPLICATION_JSON)
-                .contentType(APPLICATION_JSON).content(jsonMessage()));
+                .contentType(APPLICATION_JSON).content(jsonMessage(bookId)));
     }
 
-    private String jsonMessage() {
-        return "[{\"id\": \"book1\"}]";
+    private String jsonMessage(String bookId) {
+        return "[{\"id\": \""+ bookId +"\"}]";
     }
 }
