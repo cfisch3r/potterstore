@@ -32,7 +32,7 @@ dependencyManagement {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile 'org.springframework.data:spring-data-jpa'
+    compile 'org.springframework.data:spring-data-mongodb'
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile 'io.rest-assured:rest-assured:3.2.0'
     testCompile 'org.glassfish.jersey.inject:jersey-hk2:2.26'
