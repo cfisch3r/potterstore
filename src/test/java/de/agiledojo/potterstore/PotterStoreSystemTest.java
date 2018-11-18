@@ -1,5 +1,6 @@
 package de.agiledojo.potterstore;
 
+import io.restassured.http.ContentType;
 import org.assertj.core.api.Assertions;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -19,16 +20,16 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT,classes = PotterStore.class)
-@TestPropertySource(properties = { "mysqlpw=WWW", "price=8" })
+@TestPropertySource(properties = { "potter.single-book-price=8" })
 public class PotterStoreSystemTest {
 
-    @ClassRule
-    public static DockerRule mysqlContainer = DockerRule.builder()
-            .imageName("mysql:latest")
-            .expose("3306","3306")
-            .env("MYSQL_ROOT_PASSWORD","secret")
-            .waitFor(WaitFor.logMessage("MySQL init process done. Ready for start up."))
-            .build();
+//    @ClassRule
+//    public static DockerRule mysqlContainer = DockerRule.builder()
+//            .imageName("mysql:latest")
+//            .expose("3306","3306")
+//            .env("MYSQL_ROOT_PASSWORD","secret")
+//            .waitFor(WaitFor.logMessage("MySQL init process done. Ready for start up."))
+//            .build();
 
     @LocalServerPort
     int port;
@@ -42,10 +43,12 @@ public class PotterStoreSystemTest {
     public void singlePriceIsReturnedForOneBook() {
         given()
                 .port(port)
+                .contentType(ContentType.JSON)
                 .body(new PriceRequest("book1").json())
         .when()
                 .post("/price")
         .then().assertThat()
+                .statusCode(200)
                 .body("amount", response -> equalTo(8))
                 .body("currency", value -> equalTo("€"));
     }
