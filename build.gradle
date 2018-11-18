@@ -35,5 +35,7 @@ dependencies {
     compile 'org.springframework.data:spring-data-jpa'
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile 'io.rest-assured:rest-assured:3.2.0'
+    testCompile 'org.glassfish.jersey.inject:jersey-hk2:2.26'
+    testCompile 'org.glassfish.jersey.bundles.repackaged:jersey-guava:2.25.1'
     testCompile 'com.github.tdomzal:junit-docker-rule:0.4.1'
 }

@@ -23,13 +23,14 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @TestPropertySource(properties = { "potter.single-book-price=8" })
 public class PotterStoreSystemTest {
 
-//    @ClassRule
-//    public static DockerRule mysqlContainer = DockerRule.builder()
+    @ClassRule
+    public static DockerRule mysqlContainer = DockerRule.builder()
+            .imageName("nginx")
 //            .imageName("mysql:latest")
 //            .expose("3306","3306")
 //            .env("MYSQL_ROOT_PASSWORD","secret")
 //            .waitFor(WaitFor.logMessage("MySQL init process done. Ready for start up."))
-//            .build();
+            .build();
 
     @LocalServerPort
     int port;
