@@ -23,8 +23,17 @@ repositories {
 sourceCompatibility = JavaVersion.VERSION_1_10
 targetCompatibility = JavaVersion.VERSION_1_10
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.data:spring-data-releasetrain:Lovelace-SR2"
+    }
+}
+
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile 'org.springframework.data:spring-data-jpa'
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile 'io.rest-assured:rest-assured:3.2.0'
+    testCompile 'com.github.tdomzal:junit-docker-rule:0.4.1'
 }
