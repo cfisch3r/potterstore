@@ -10,20 +10,26 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@TestPropertySource(properties = {"potter.single-book-price=5.43" })
-public class PotterStoreConfigurationTest {
+@TestPropertySource(properties = {"potter.single-book-price=5.43",
+        "potter.db-connection-string=jdbc:mysql://127.0.0.1/potterstore" })
+public class PotterStoreConfigurationPropertiesTest {
 
     @TestConfiguration
-    @EnableConfigurationProperties(PotterStoreConfiguration.class)
+    @EnableConfigurationProperties(PotterStoreConfigurationProperties.class)
     static class MyTestConfiguration {
 
     }
 
     @Autowired
-    PotterStoreConfiguration configuration;
+    PotterStoreConfigurationProperties configuration;
 
     @Test
     public void price() {
         Assertions.assertThat(configuration.getSingleBookPrice()).isEqualTo(5.43);
+    }
+
+    @Test
+    public void connectionString() {
+        Assertions.assertThat(configuration.getDbConnectionString()).isEqualTo("jdbc:mysql://127.0.0.1/potterstore");
     }
 }

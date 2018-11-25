@@ -2,12 +2,12 @@ package de.agiledojo.potterstore;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.math.BigDecimal;
-
 @ConfigurationProperties(prefix="potter")
-public class PotterStoreConfiguration {
+public class PotterStoreConfigurationProperties {
 
     private double singleBookPrice;
+
+    private String DbConnectionString;
 
     public double getSingleBookPrice() {
         return singleBookPrice;
@@ -15,5 +15,13 @@ public class PotterStoreConfiguration {
 
     public void setSingleBookPrice(double singleBookPrice) {
         this.singleBookPrice = singleBookPrice;
+    }
+
+    public String getDbConnectionString() {
+        return DbConnectionString;
+    }
+
+    public void setDbConnectionString(String dbConnectionString) {
+        DbConnectionString = dbConnectionString;
     }
 }
