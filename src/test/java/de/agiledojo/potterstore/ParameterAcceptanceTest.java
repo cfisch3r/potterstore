@@ -1,16 +1,16 @@
 package de.agiledojo.potterstore;
 
-import org.assertj.core.api.Assertions;
+import org.hamcrest.Matchers;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 import pl.domzal.junit.docker.rule.DockerRule;
 import pl.domzal.junit.docker.rule.WaitFor;
+
+import java.net.URI;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
@@ -20,8 +20,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT,classes = PotterStore.class)
-@TestPropertySource(properties = { "potter.single-book-price=8" })
-public class PotterStoreAcceptanceTest {
+public class ParameterAcceptanceTest {
 
     private static final String DB_PW = "secret";
 
@@ -40,22 +39,27 @@ public class PotterStoreAcceptanceTest {
     int port;
 
     @Test
-    public void applicationListensToAPort() {
-        Assertions.assertThat(port).isNotEqualTo(0);
-    }
+    public void createdSinglePriceIsReturnedForOneBook() {
+        given()
+                .port(port)
+                .contentType(JSON)
+                .body("{\"amount\":7.23,\n\"currency\":\"EUR\"}")
+                .when()
+                .put("/parameters/price")
+                .then().assertThat()
+                .statusCode(OK.value());
 
-    @Test
-    public void singlePriceIsReturnedForOneBook() {
         given()
                 .port(port)
                 .contentType(JSON)
                 .body(new PriceRequest("book1").json())
-        .when()
+                .when()
                 .post("/price")
-        .then().assertThat()
+                .then().assertThat()
                 .statusCode(OK.value())
-                .body("amount", response -> equalTo(8))
+                .body("amount", (response) -> equalTo(7.23f))
                 .body("currency", value -> equalTo("€"));
+
     }
 
 

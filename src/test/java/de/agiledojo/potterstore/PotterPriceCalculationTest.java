@@ -10,7 +10,7 @@ public class PotterPriceCalculationTest {
 
     @Test
     public void singlePriceForOneBook() {
-        PriceCalculation calculation = PriceCalculation.create(new Price(new BigDecimal(8)));
+        PriceCalculation calculation = PriceCalculation.create(new Price(new BigDecimal(8)), null);
         var bookId = new BookId(){
             @Override
             public String getId() {
