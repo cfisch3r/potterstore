@@ -26,8 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(PotterStoreController.class)
-public class PotterStoreControllerIntegrationTest {
+@WebMvcTest(PriceController.class)
+public class PriceControllerIntegrationTest {
 
     @Autowired
     private MockMvc mvc;

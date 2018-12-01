@@ -20,8 +20,8 @@ import java.util.Currency;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ParameterMysqlRepositoryTest.MyTestConfiguration.class, ParameterRepositoryConfiguration.class})
-public class ParameterMysqlRepositoryTest {
+@ContextConfiguration(classes = {ParameterRepositoryTest.MyTestConfiguration.class, ParameterRepositoryConfiguration.class})
+public class ParameterRepositoryTest {
 
     @TestConfiguration
     public static class MyTestConfiguration {

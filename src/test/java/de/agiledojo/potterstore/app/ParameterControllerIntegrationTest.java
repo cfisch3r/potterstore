@@ -1,7 +1,6 @@
 package de.agiledojo.potterstore.app;
 
 import de.agiledojo.potterstore.ParameterRepository;
-import de.agiledojo.potterstore.app.PotterParametersController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
@@ -20,8 +19,8 @@ import java.math.RoundingMode;
 import java.util.Currency;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(PotterParametersController.class)
-public class PotterParametersControllerIntegrationTest {
+@WebMvcTest(ParameterController.class)
+public class ParameterControllerIntegrationTest {
 
 
     @Autowired

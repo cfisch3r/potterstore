@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class PotterStoreController {
+public class PriceController {
 
     private PriceCalculation priceCalculation;
 
     @Autowired
-    public PotterStoreController(PriceCalculation priceCalculation) {
+    public PriceController(PriceCalculation priceCalculation) {
         this.priceCalculation = priceCalculation;
     }
 

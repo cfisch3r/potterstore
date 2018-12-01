@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class PotterParametersController {
+public class ParameterController {
 
     private ParameterRepository repository;
 
     @Autowired
-    public PotterParametersController(ParameterRepository repository) {
+    public ParameterController(ParameterRepository repository) {
         this.repository = repository;
     }
 
