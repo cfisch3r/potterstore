@@ -1,5 +1,6 @@
 package de.agiledojo.potterstore.app;
 
+import org.assertj.core.api.Assertions;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,40 +18,33 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT,classes = PotterStore.class)
-@TestPropertySource(properties = { "potter.db-connection-string=jdbc:mysql://localhost:3307/potter",
-    "potter.db-user=potter",
-    "potter.db-password=secret"})
-public class ParameterAcceptanceTest {
+@TestPropertySource(properties = { "potter.single-book-price=8",
+        "potter.db-connection-string=jdbc:mysql://localhost:3306/potter",
+        "potter.db-user=potter",
+        "potter.db-password=secret"})
+public class CalculatingPricesAcceptanceTest {
 
     @ClassRule
     public static DockerRule mysqlContainer =
-            MysqlDockerContainer.create("3307","potter","potter","secret");
+            MysqlDockerContainer.create("3306","potter","potter","secret");
+
 
     @LocalServerPort
     int port;
 
-    @Test
-    public void createdSinglePriceIsReturnedForOneBook() {
-        given()
-                .port(port)
-                .contentType(JSON)
-                .body("{\"amount\":7.23,\n\"currency\":\"EUR\"}")
-                .when()
-                .put("/parameters/price")
-                .then().assertThat()
-                .statusCode(OK.value());
 
+    @Test
+    public void defaultPriceIsReturnedForOneBook() {
         given()
                 .port(port)
                 .contentType(JSON)
                 .body(new PriceRequest("book1").json())
-                .when()
+        .when()
                 .post("/price")
-                .then().assertThat()
+        .then().assertThat()
                 .statusCode(OK.value())
-                .body("amount", (response) -> equalTo(7.23f))
+                .body("amount", response -> equalTo(8))
                 .body("currency", value -> equalTo("€"));
-
     }
 
 
