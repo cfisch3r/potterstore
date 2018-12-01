@@ -3,6 +3,7 @@ package de.agiledojo.potterstore;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
+import java.util.List;
 import java.util.Optional;
 
 public class MysqlParameterRepository implements ParameterRepository {
@@ -20,9 +21,9 @@ public class MysqlParameterRepository implements ParameterRepository {
 
     @Override
     public void saveOrUpdateSingleBookPrice(BookPrice price) {
-        crudRepository.save(new ParameterRecord(PARAMETER_KEYS.PRICE.toString(),
-                price.getAmount() +" " + price.getCurrency().getCurrencyCode()));
-
+        var records = crudRepository.findByParamKey(PARAMETER_KEYS.PRICE.toString());
+        var record = updateRecord(records,serialize(price));
+        crudRepository.save(record);
     }
 
     @Override
@@ -33,6 +34,21 @@ public class MysqlParameterRepository implements ParameterRepository {
         } else {
             return Optional.empty();
         }
+    }
+
+    private ParameterRecord updateRecord(List<ParameterRecord> records, String value) {
+        if (records.size() == 1) {
+            var record = records.get(0);
+            record.setParamValue(value);
+            return record;
+        } else {
+            return new ParameterRecord(PARAMETER_KEYS.PRICE.toString(), value);
+        }
+
+    }
+
+    private String serialize(BookPrice price) {
+        return price.getAmount() +" " + price.getCurrency().getCurrencyCode();
     }
 
     private BookPrice parameterToBookPrice(ParameterRecord parameterRecord) {

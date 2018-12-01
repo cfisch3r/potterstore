@@ -65,4 +65,35 @@ public class ParameterMysqlRepositoryTest {
         assertThat(price.getAmount()).isEqualTo(new BigDecimal(12).setScale(2, RoundingMode.HALF_UP));
         assertThat(price.getCurrency().getCurrencyCode()).isEqualTo("EUR");
     }
+
+    @Test
+    public void getUpdatedPrice() {
+        repository.saveOrUpdateSingleBookPrice(new BookPrice() {
+            @Override
+            public BigDecimal getAmount() {
+                return new BigDecimal(14);
+            }
+
+            @Override
+            public Currency getCurrency() {
+                return Currency.getInstance("EUR");
+            }
+        });
+
+        repository.saveOrUpdateSingleBookPrice(new BookPrice() {
+            @Override
+            public BigDecimal getAmount() {
+                return new BigDecimal(16);
+            }
+
+            @Override
+            public Currency getCurrency() {
+                return Currency.getInstance("EUR");
+            }
+        });
+
+        var price = repository.getSingleBookPrice().get();
+        assertThat(price.getAmount()).isEqualTo(new BigDecimal(16).setScale(2, RoundingMode.HALF_UP));
+        assertThat(price.getCurrency().getCurrencyCode()).isEqualTo("EUR");
+    }
 }
