@@ -26,25 +26,23 @@ public class ParameterRepositoryConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Autowired DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setDataSource(dataSource());
+        em.setDataSource(dataSource);
         em.setPackagesToScan(new String[] { "de.agiledojo.potterstore" });
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalProperties());
-//        em.setDataSource();
-
         return em;
     }
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource(@Autowired PotterStoreConfigurationProperties properties){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/potter");
-        dataSource.setUsername( "potter" );
-        dataSource.setPassword( "secret" );
+        dataSource.setUrl(properties.getDbConnectionString());
+        dataSource.setUsername( properties.getDbUser());
+        dataSource.setPassword( properties.getDbPassword());
         return dataSource;
     }
 

@@ -11,7 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @TestPropertySource(properties = {"potter.single-book-price=5.43",
-        "potter.db-connection-string=jdbc:mysql://127.0.0.1/potterstore" })
+        "potter.db-connection-string=jdbc:mysql://127.0.0.1/potterstore",
+        "potter.db-user=potter",
+        "potter.db-password=secret"})
 public class PotterStoreConfigurationPropertiesTest {
 
     @TestConfiguration
@@ -31,5 +33,15 @@ public class PotterStoreConfigurationPropertiesTest {
     @Test
     public void connectionString() {
         Assertions.assertThat(configuration.getDbConnectionString()).isEqualTo("jdbc:mysql://127.0.0.1/potterstore");
+    }
+
+    @Test
+    public void dbUser() {
+        Assertions.assertThat(configuration.getDbUser()).isEqualTo("potter");
+    }
+
+    @Test
+    public void dbPassword() {
+        Assertions.assertThat(configuration.getDbPassword()).isEqualTo("secret");
     }
 }
