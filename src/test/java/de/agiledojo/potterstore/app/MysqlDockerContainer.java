@@ -1,4 +1,4 @@
-package de.agiledojo.potterstore;
+package de.agiledojo.potterstore.app;
 
 import pl.domzal.junit.docker.rule.DockerRule;
 import pl.domzal.junit.docker.rule.WaitFor;

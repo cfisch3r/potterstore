@@ -1,5 +1,8 @@
-package de.agiledojo.potterstore;
+package de.agiledojo.potterstore.app;
 
+import de.agiledojo.potterstore.BookPrice;
+import de.agiledojo.potterstore.ParameterRepository;
+import de.agiledojo.potterstore.app.repository.ParameterRepositoryConfiguration;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +20,7 @@ import java.util.Currency;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ParameterMysqlRepositoryTest.MyTestConfiguration.class,ParameterRepositoryConfiguration.class})
+@ContextConfiguration(classes = {ParameterMysqlRepositoryTest.MyTestConfiguration.class, ParameterRepositoryConfiguration.class})
 public class ParameterMysqlRepositoryTest {
 
     @TestConfiguration

@@ -1,4 +1,6 @@
-package de.agiledojo.potterstore;
+package de.agiledojo.potterstore.app;
+
+import de.agiledojo.potterstore.BookId;
 
 import java.util.Objects;
 

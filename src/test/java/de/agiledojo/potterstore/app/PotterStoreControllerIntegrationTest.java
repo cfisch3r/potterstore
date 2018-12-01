@@ -1,5 +1,7 @@
-package de.agiledojo.potterstore;
+package de.agiledojo.potterstore.app;
 
+import de.agiledojo.potterstore.Price;
+import de.agiledojo.potterstore.PriceCalculation;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;

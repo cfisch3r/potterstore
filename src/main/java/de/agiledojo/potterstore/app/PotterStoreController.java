@@ -1,12 +1,14 @@
-package de.agiledojo.potterstore;
+package de.agiledojo.potterstore.app;
 
+import de.agiledojo.potterstore.BookId;
+import de.agiledojo.potterstore.Price;
+import de.agiledojo.potterstore.PriceCalculation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 

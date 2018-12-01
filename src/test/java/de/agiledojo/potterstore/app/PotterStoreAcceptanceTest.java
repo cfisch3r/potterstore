@@ -1,4 +1,4 @@
-package de.agiledojo.potterstore;
+package de.agiledojo.potterstore.app;
 
 import org.assertj.core.api.Assertions;
 import org.junit.ClassRule;
@@ -8,9 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 import pl.domzal.junit.docker.rule.DockerRule;
-import pl.domzal.junit.docker.rule.WaitFor;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;

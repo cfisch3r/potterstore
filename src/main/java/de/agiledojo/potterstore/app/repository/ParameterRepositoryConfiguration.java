@@ -1,7 +1,8 @@
-package de.agiledojo.potterstore;
+package de.agiledojo.potterstore.app.repository;
 
+import de.agiledojo.potterstore.ParameterRepository;
+import de.agiledojo.potterstore.app.PotterStoreConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -21,7 +22,7 @@ import java.util.Properties;
 @EnableJpaRepositories
 public class ParameterRepositoryConfiguration {
     @Bean
-    public  ParameterRepository repository(@Autowired ParameterCRUDRepository crudRepository) {
+    public ParameterRepository repository(@Autowired ParameterCRUDRepository crudRepository) {
         return new MysqlParameterRepository(crudRepository);
     }
 

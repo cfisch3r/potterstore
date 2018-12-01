@@ -1,4 +1,7 @@
-package de.agiledojo.potterstore;
+package de.agiledojo.potterstore.app.repository;
+
+import de.agiledojo.potterstore.BookPrice;
+import de.agiledojo.potterstore.ParameterRepository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

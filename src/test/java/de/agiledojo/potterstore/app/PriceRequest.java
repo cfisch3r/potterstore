@@ -1,4 +1,4 @@
-package de.agiledojo.potterstore;
+package de.agiledojo.potterstore.app;
 
 public class PriceRequest {
 

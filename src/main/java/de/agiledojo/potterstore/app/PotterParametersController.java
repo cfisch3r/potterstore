@@ -1,5 +1,6 @@
-package de.agiledojo.potterstore;
+package de.agiledojo.potterstore.app;
 
+import de.agiledojo.potterstore.ParameterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
