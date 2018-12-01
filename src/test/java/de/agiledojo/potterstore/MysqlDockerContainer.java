@@ -13,7 +13,7 @@ public class MysqlDockerContainer {
                 .env("MYSQL_USER", userName)
                 .env("MYSQL_PASSWORD", password)
                 .env("MYSQL_DATABASE", dbName)
-                .waitFor(WaitFor.logMessage("MySQL init process done. Ready for start up."))
+                .waitFor(WaitFor.logMessage("bind-address: '::' port: 33060"))
                 .build();
     }
 }
