@@ -20,6 +20,10 @@ repositories {
     mavenCentral()
 }
 
+test {
+    maxParallelForks = 1
+}
+
 sourceCompatibility = JavaVersion.VERSION_1_10
 targetCompatibility = JavaVersion.VERSION_1_10
 
