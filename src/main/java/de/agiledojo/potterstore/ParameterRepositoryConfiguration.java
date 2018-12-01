@@ -40,7 +40,8 @@ public class ParameterRepositoryConfiguration {
     public DataSource dataSource(@Autowired PotterStoreConfigurationProperties properties){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl(properties.getDbConnectionString());
+        String url = properties.getDbConnectionString();
+        dataSource.setUrl(url);
         dataSource.setUsername( properties.getDbUser());
         dataSource.setPassword( properties.getDbPassword());
         return dataSource;

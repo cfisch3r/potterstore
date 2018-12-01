@@ -20,21 +20,16 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT,classes = PotterStore.class)
-@TestPropertySource(properties = { "potter.single-book-price=8" })
+@TestPropertySource(properties = { "potter.single-book-price=8",
+        "potter.db-connection-string=jdbc:mysql://localhost:3306/potter",
+        "potter.db-user=potter",
+        "potter.db-password=secret"})
 public class PotterStoreAcceptanceTest {
 
-    private static final String DB_PW = "secret";
-
     @ClassRule
-    public static DockerRule mysqlContainer = DockerRule.builder()
-            .imageName("mysql:latest")
-            .expose("3306","3306")
-            .env("MYSQL_ROOT_PASSWORD",DB_PW)
-            .env("MYSQL_USER","potter")
-            .env("MYSQL_PASSWORD","secret")
-            .env("MYSQL_DATABASE","potter")
-            .waitFor(WaitFor.logMessage("MySQL init process done. Ready for start up."))
-            .build();
+    public static DockerRule mysqlContainer =
+            MysqlDockerContainer.create("3306","potter","potter","secret");
+
 
     @LocalServerPort
     int port;

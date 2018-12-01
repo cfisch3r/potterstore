@@ -2,11 +2,15 @@ package de.agiledojo.potterstore;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -18,35 +22,33 @@ import java.math.RoundingMode;
 import java.util.Currency;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ParameterRepositoryConfiguration.class)
+@ContextConfiguration(classes = {ParameterMysqlRepositoryTest.MyTestConfiguration.class,ParameterRepositoryConfiguration.class})
 public class ParameterMysqlRepositoryTest {
 
-    @MockBean
-    private PotterStoreConfigurationProperties properties;
+    @TestConfiguration
+    public static class MyTestConfiguration {
+
+        @Bean
+        PotterStoreConfigurationProperties properties() {
+            var properties = new PotterStoreConfigurationProperties();
+            properties.setDbConnectionString("jdbc:mysql://localhost:3308/potter");
+            properties.setDbUser("potter");
+            properties.setDbPassword("secret");
+            return properties;
+        }
+    }
 
     @Autowired
     private ParameterRepository repository;
 
 
-    private static final String DB_PW = "secret";
-
     @ClassRule
-    public static DockerRule mysqlContainer = DockerRule.builder()
-            .imageName("mysql:latest")
-            .expose("3306","3306")
-            .env("MYSQL_ROOT_PASSWORD",DB_PW)
-            .env("MYSQL_USER","potter")
-            .env("MYSQL_PASSWORD","secret")
-            .env("MYSQL_DATABASE","potter")
-            .waitFor(WaitFor.logMessage("MySQL init process done. Ready for start up."))
-            .build();
+    public static DockerRule mysqlContainer =
+            MysqlDockerContainer.create("3308","potter","potter","secret");
 
-
-    @Before
-    public void setUp() throws Exception {
-    }
 
     @Test
     public void noPriceWhenNothingWasSaved() {
