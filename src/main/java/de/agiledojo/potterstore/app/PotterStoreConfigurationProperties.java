@@ -13,6 +13,8 @@ public class PotterStoreConfigurationProperties {
 
     private String dbPassword;
 
+    private String currencyCode;
+
     public double getSingleBookPrice() {
         return singleBookPrice;
     }
@@ -44,4 +46,13 @@ public class PotterStoreConfigurationProperties {
     public void setDbPassword(String dbPassword) {
         this.dbPassword = dbPassword;
     }
+
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
+    }
+
 }

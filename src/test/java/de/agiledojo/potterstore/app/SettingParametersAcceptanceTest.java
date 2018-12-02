@@ -17,7 +17,9 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT,classes = PotterStoreApplication.class)
-@TestPropertySource(properties = { "potter.db-connection-string=jdbc:mysql://localhost:3307/potter",
+@TestPropertySource(properties = { "potter.single-book-price=8.32",
+    "potter.currency-code=EUR",
+    "potter.db-connection-string=jdbc:mysql://localhost:3307/potter",
     "potter.db-user=potter",
     "potter.db-password=secret"})
 public class SettingParametersAcceptanceTest {

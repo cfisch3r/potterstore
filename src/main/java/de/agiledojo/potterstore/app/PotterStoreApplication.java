@@ -17,7 +17,7 @@ public class PotterStoreApplication {
    @Bean
    public PriceCalculation priceCalculation (PotterStoreConfigurationProperties configuration, @Autowired ParameterRepository parameterRepository) {
        var price = PriceCalculation.price(new BigDecimal(configuration.getSingleBookPrice()),
-               Currency.getInstance("EUR"));
+               Currency.getInstance(configuration.getCurrencyCode()));
        return PriceCalculation.create(price, parameterRepository);
    }
 }
