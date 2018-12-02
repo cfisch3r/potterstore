@@ -18,7 +18,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT,classes = PotterStore.class)
-@TestPropertySource(properties = { "potter.single-book-price=8",
+@TestPropertySource(properties = { "potter.single-book-price=8.32",
         "potter.db-connection-string=jdbc:mysql://localhost:3306/potter",
         "potter.db-user=potter",
         "potter.db-password=secret"})
@@ -43,7 +43,7 @@ public class CalculatingPricesAcceptanceTest {
                 .post("/price")
         .then().assertThat()
                 .statusCode(OK.value())
-                .body("amount", response -> equalTo(8))
+                .body("amount", response -> equalTo(8.32f))
                 .body("currency", value -> equalTo("€"));
     }
 
