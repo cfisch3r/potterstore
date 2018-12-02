@@ -7,7 +7,7 @@ public class MysqlDockerContainer {
 
     public static DockerRule create(String hostPort, String dbName, String userName, String password) {
         return DockerRule.builder()
-                .imageName("mysql:latest")
+                .imageName("mysql:8.0.13")
                 .expose(hostPort,"3306")
                 .env("MYSQL_ROOT_PASSWORD","geheim")
                 .env("MYSQL_USER", userName)
