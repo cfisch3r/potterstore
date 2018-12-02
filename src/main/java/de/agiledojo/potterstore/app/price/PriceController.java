@@ -1,8 +1,9 @@
-package de.agiledojo.potterstore.app;
+package de.agiledojo.potterstore.app.price;
 
 import de.agiledojo.potterstore.BookId;
 import de.agiledojo.potterstore.Price;
 import de.agiledojo.potterstore.PriceCalculation;
+import de.agiledojo.potterstore.app.JSONPrice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -9,7 +9,7 @@ public class PriceRequest {
         this.bookId = bookId;
     }
 
-    String json() {
+    public String json() {
         return "[{\"id\": \"" + this.bookId + "\"}]";
     }
 }

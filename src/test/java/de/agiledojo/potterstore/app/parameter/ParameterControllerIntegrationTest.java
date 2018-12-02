@@ -1,4 +1,4 @@
-package de.agiledojo.potterstore.app;
+package de.agiledojo.potterstore.app.parameter;
 
 import de.agiledojo.potterstore.ParameterRepository;
 import org.junit.Test;
@@ -6,10 +6,11 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,12 +23,14 @@ import java.math.RoundingMode;
 import java.util.Currency;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ParameterController.class)
-@ContextConfiguration(classes = ParameterControllerIntegrationTest.EmptyConfiguration.class)
+@WebMvcTest
+@ContextConfiguration(classes = ParameterControllerIntegrationTest.TestConfiguration.class)
 public class ParameterControllerIntegrationTest {
 
-    @SpringBootApplication
-    public static class EmptyConfiguration {
+    @Configuration
+    @EnableAutoConfiguration
+    @ComponentScan(basePackageClasses = ParameterController.class)
+    public static class TestConfiguration {
     }
 
 

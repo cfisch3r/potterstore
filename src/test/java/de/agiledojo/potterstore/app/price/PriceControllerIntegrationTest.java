@@ -1,16 +1,21 @@
-package de.agiledojo.potterstore.app;
+package de.agiledojo.potterstore.app.price;
 
 import de.agiledojo.potterstore.Price;
 import de.agiledojo.potterstore.PriceCalculation;
+import de.agiledojo.potterstore.app.PriceRequest;
+import de.agiledojo.potterstore.app.parameter.ParameterController;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,13 +34,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(PriceController.class)
-@ContextConfiguration(classes = PriceControllerIntegrationTest.EmptyConfiguration.class)
+@WebMvcTest
+@ContextConfiguration(classes = PriceControllerIntegrationTest.TestConfiguration.class)
 public class PriceControllerIntegrationTest {
 
-    @SpringBootApplication
-    public static class EmptyConfiguration {
+    @Configuration
+    @EnableAutoConfiguration
+    @ComponentScan(basePackageClasses = PriceController.class)
+    public static class TestConfiguration {
     }
+
 
 
     @Autowired

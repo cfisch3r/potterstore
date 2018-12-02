@@ -1,4 +1,4 @@
-package de.agiledojo.potterstore.app;
+package de.agiledojo.potterstore.app.price;
 
 import de.agiledojo.potterstore.BookId;
 
