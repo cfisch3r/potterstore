@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface ParameterRepository {
 
-    void saveOrUpdateSingleBookPrice(BookPrice price);
+    void saveOrUpdateSingleBookPrice(Price price);
 
-    Optional<BookPrice> getSingleBookPrice();
+    Optional<Price> getSingleBookPrice();
 }

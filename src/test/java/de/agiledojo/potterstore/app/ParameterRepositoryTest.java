@@ -1,6 +1,6 @@
 package de.agiledojo.potterstore.app;
 
-import de.agiledojo.potterstore.BookPrice;
+import de.agiledojo.potterstore.Price;
 import de.agiledojo.potterstore.ParameterRepository;
 import de.agiledojo.potterstore.app.repository.ParameterRepositoryConfiguration;
 import org.junit.ClassRule;
@@ -52,7 +52,7 @@ public class ParameterRepositoryTest {
 
     @Test
     public void getSavedPrice() {
-        repository.saveOrUpdateSingleBookPrice(new BookPrice() {
+        repository.saveOrUpdateSingleBookPrice(new Price() {
             @Override
             public BigDecimal getAmount() {
                 return new BigDecimal(12);
@@ -71,7 +71,7 @@ public class ParameterRepositoryTest {
 
     @Test
     public void getUpdatedPrice() {
-        repository.saveOrUpdateSingleBookPrice(new BookPrice() {
+        repository.saveOrUpdateSingleBookPrice(new Price() {
             @Override
             public BigDecimal getAmount() {
                 return new BigDecimal(14);
@@ -83,7 +83,7 @@ public class ParameterRepositoryTest {
             }
         });
 
-        repository.saveOrUpdateSingleBookPrice(new BookPrice() {
+        repository.saveOrUpdateSingleBookPrice(new Price() {
             @Override
             public BigDecimal getAmount() {
                 return new BigDecimal(16);

@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -41,8 +42,20 @@ public class PriceControllerIntegrationTest {
     }
 
     private void setCalculatedPrice(int amount) {
+        var price = new Price(){
+
+            @Override
+            public BigDecimal getAmount() {
+                return new BigDecimal(amount);
+            }
+
+            @Override
+            public Currency getCurrency() {
+                return Currency.getInstance("EUR");
+            }
+        };
         when(priceCalculation.priceFor(ArgumentMatchers.anyList()))
-                .thenReturn(new Price(new BigDecimal(amount)));
+                .thenReturn(price);
     }
 
     @Test

@@ -23,8 +23,9 @@ public class PriceController {
     }
 
     @RequestMapping(method= RequestMethod.POST,path="/price")
-    public Price price(@RequestBody List<JSONBookId> bookIds) {
-        return priceCalculation.priceFor(new ArrayList<BookId>(bookIds));
+    public JSONPrice price(@RequestBody List<JSONBookId> bookIds) {
+        Price price = priceCalculation.priceFor(new ArrayList<BookId>(bookIds));
+        return new JSONPrice(price);
     }
 
 }

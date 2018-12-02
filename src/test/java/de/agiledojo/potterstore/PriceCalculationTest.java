@@ -1,11 +1,9 @@
 package de.agiledojo.potterstore;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
@@ -13,6 +11,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 
@@ -27,34 +26,37 @@ public class PriceCalculationTest {
 
     @Before
     public void setUp() {
-        priceCalculation = PriceCalculation.create(new Price(new BigDecimal(8.22)),parameterRepository);
+        var price = PriceCalculation.price(new BigDecimal(8.22),Currency.getInstance("EUR"));
+        priceCalculation = PriceCalculation.create(price,parameterRepository);
+    }
+
+    @Test
+    public void createPrice() {
+        var price = PriceCalculation.price(new BigDecimal(4.56),Currency.getInstance("EUR"));
+        assertPrice(price, 4.56, "EUR");
+    }
+
+    @Test
+    public void createBookId() {
+        var bookId = PriceCalculation.bookId("book1");
+        assertThat(bookId.getId()).isEqualTo("book1");
     }
 
     @Test
     public void defaultSinglePrice() {
-        Price price = priceCalculation.priceFor(List.of(new BookId() {
+        var price = priceCalculation.priceFor(List.of(new BookId() {
             @Override
             public String getId() {
                 return "book1";
             }
         }));
-        Assertions.assertThat(price.amount).isEqualTo(new BigDecimal(8.22));
+        assertPrice(price, 8.22, "EUR");
+
     }
 
     @Test
     public void singlePriceFromRepository() {
-        var bookPrice = new BookPrice(){
-
-            @Override
-            public BigDecimal getAmount() {
-                return new BigDecimal(3.95);
-            }
-
-            @Override
-            public Currency getCurrency() {
-                return Currency.getInstance("EUR");
-            }
-        };
+        var bookPrice = PriceCalculation.price(new BigDecimal(3.95),Currency.getInstance("EUR"));
         when(parameterRepository.getSingleBookPrice()).thenReturn(Optional.of(bookPrice));
         var price = priceCalculation.priceFor(List.of(new BookId() {
             @Override
@@ -62,7 +64,12 @@ public class PriceCalculationTest {
                 return "book1";
             }
         }));
-        Assertions.assertThat(price.amount).isEqualTo(new BigDecimal(3.95));
+        assertPrice(price, 3.95, "EUR");
+    }
+
+    private void assertPrice(Price price, double amount, String currencyCode) {
+        assertThat(price.getAmount()).isEqualTo(new BigDecimal(amount));
+        assertThat(price.getCurrency()).isEqualTo(Currency.getInstance(currencyCode));
     }
 
 }

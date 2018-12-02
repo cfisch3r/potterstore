@@ -1,14 +1,11 @@
 package de.agiledojo.potterstore;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 
-public class Price {
+public interface Price {
 
-    public BigDecimal amount;
+    BigDecimal getAmount();
 
-    public String currency = "€";
-
-    public Price(BigDecimal amount) {
-        this.amount = amount;
-    }
+    Currency getCurrency();
 }

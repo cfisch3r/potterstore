@@ -3,19 +3,19 @@ package de.agiledojo.potterstore;
 import java.util.List;
 
 class DefaultPriceCalculation implements PriceCalculation {
-    private Price singleBookPrice;
+    private Price singlePrice;
     private ParameterRepository parameterRepository;
 
-    public DefaultPriceCalculation(Price singleBookPrice, ParameterRepository parameterRepository) {
-        this.singleBookPrice = singleBookPrice;
+    public DefaultPriceCalculation(Price singlePrice, ParameterRepository parameterRepository) {
+        this.singlePrice = singlePrice;
         this.parameterRepository = parameterRepository;
     }
 
     @Override
     public Price priceFor(List<BookId> bookIds) {
         if (parameterRepository.getSingleBookPrice().isPresent())
-            return new Price(parameterRepository.getSingleBookPrice().get().getAmount());
+            return parameterRepository.getSingleBookPrice().get();
         else
-            return singleBookPrice;
+            return singlePrice;
     }
 }

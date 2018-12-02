@@ -1,6 +1,6 @@
 package de.agiledojo.potterstore.app.repository;
 
-import de.agiledojo.potterstore.BookPrice;
+import de.agiledojo.potterstore.Price;
 import de.agiledojo.potterstore.ParameterRepository;
 
 import java.math.BigDecimal;
@@ -23,14 +23,14 @@ public class MysqlParameterRepository implements ParameterRepository {
 
 
     @Override
-    public void saveOrUpdateSingleBookPrice(BookPrice price) {
+    public void saveOrUpdateSingleBookPrice(Price price) {
         var records = crudRepository.findByParamKey(PARAMETER_KEYS.PRICE.toString());
         var record = updateRecord(records,serialize(price));
         crudRepository.save(record);
     }
 
     @Override
-    public Optional<BookPrice> getSingleBookPrice() {
+    public Optional<Price> getSingleBookPrice() {
         var records = crudRepository.findByParamKey(PARAMETER_KEYS.PRICE.toString());
         if (records.size() == 1) {
             return Optional.of(parameterToBookPrice(records.get(0)));
@@ -50,14 +50,14 @@ public class MysqlParameterRepository implements ParameterRepository {
 
     }
 
-    private String serialize(BookPrice price) {
+    private String serialize(Price price) {
         return price.getAmount() +" " + price.getCurrency().getCurrencyCode();
     }
 
-    private BookPrice parameterToBookPrice(ParameterRecord parameterRecord) {
+    private Price parameterToBookPrice(ParameterRecord parameterRecord) {
         String price = parameterRecord.getParamValue();
         String[] parts = price.split(" ");
-        return new BookPrice(){
+        return new Price(){
             @Override
             public BigDecimal getAmount() {
                 return BigDecimal.valueOf(Double.valueOf(parts[0]).doubleValue())
