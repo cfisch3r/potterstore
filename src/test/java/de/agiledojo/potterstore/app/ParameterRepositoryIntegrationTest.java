@@ -8,8 +8,12 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +26,13 @@ import java.util.Currency;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ParameterRepositoryIntegrationTest.MyTestConfiguration.class, ParameterRepositoryConfiguration.class})
+@ContextConfiguration(classes = ParameterRepositoryIntegrationTest.MyTestConfiguration.class)
 @Transactional
 public class ParameterRepositoryIntegrationTest {
 
-    @TestConfiguration
+    @Configuration
+    @EnableAutoConfiguration
+    @Import(ParameterRepositoryConfiguration.class)
     public static class MyTestConfiguration {
 
         @Bean
