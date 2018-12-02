@@ -9,6 +9,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import pl.domzal.junit.docker.rule.DockerRule;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.equalTo;
@@ -47,5 +49,18 @@ public class CalculatingPricesAcceptanceTest {
                 .body("currency", value -> equalTo("€"));
     }
 
+    @Test
+    public void calculatedPriceIsReturnedForListOfBooks() {
+        given()
+                .port(port)
+                .contentType(JSON)
+                .body(new PriceRequest(List.of("book1","book1")).json())
+                .when()
+                .post("/price")
+                .then().assertThat()
+                .statusCode(OK.value())
+                .body("amount", response -> equalTo(16.64f))
+                .body("currency", value -> equalTo("€"));
+    }
 
 }

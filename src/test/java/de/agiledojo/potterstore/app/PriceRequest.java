@@ -1,15 +1,26 @@
 package de.agiledojo.potterstore.app;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class PriceRequest {
 
 
-    private String bookId;
+    private final List<String> bookIds;
 
     public PriceRequest(String bookId) {
-        this.bookId = bookId;
+        this.bookIds = List.of(bookId);
+    }
+
+    public PriceRequest(List<String> bookIds) {
+        this.bookIds = new ArrayList<>(bookIds);
     }
 
     public String json() {
-        return "[{\"id\": \"" + this.bookId + "\"}]";
+        String idObjectList = bookIds.stream()
+                .map(bookId -> String.format("{\"id\": \"%s\"}", bookId))
+                .collect(Collectors.joining(","));
+        return String.format("[%s]",idObjectList);
     }
 }

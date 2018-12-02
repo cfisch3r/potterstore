@@ -1,6 +1,7 @@
 package de.agiledojo.potterstore;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface PriceCalculation {
 
             @Override
             public BigDecimal getAmount() {
-                return amount;
+                return amount.setScale(2, RoundingMode.HALF_UP);
             }
 
             @Override

@@ -1,5 +1,6 @@
 package de.agiledojo.potterstore;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 class DefaultPriceCalculation implements PriceCalculation {
@@ -13,6 +14,13 @@ class DefaultPriceCalculation implements PriceCalculation {
 
     @Override
     public Price priceFor(List<BookId> bookIds) {
+        Price singleBookPrice = getSingleBookPrice();
+        BigDecimal totalAmount = singleBookPrice.getAmount().multiply(new BigDecimal(bookIds.size()));
+        var totalPrice = PriceCalculation.price(totalAmount,singleBookPrice.getCurrency());
+        return totalPrice;
+    }
+
+    private Price getSingleBookPrice() {
         if (parameterRepository.getSingleBookPrice().isPresent())
             return parameterRepository.getSingleBookPrice().get();
         else
