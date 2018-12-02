@@ -1,9 +1,10 @@
-package de.agiledojo.potterstore.app;
+package de.agiledojo.potterstore.app.repository;
 
 import de.agiledojo.potterstore.ParameterRepository;
 import de.agiledojo.potterstore.Price;
 import de.agiledojo.potterstore.PriceCalculation;
-import de.agiledojo.potterstore.app.repository.ParameterRepositoryConfiguration;
+import de.agiledojo.potterstore.app.MysqlDockerContainer;
+import de.agiledojo.potterstore.app.PotterStoreConfigurationProperties;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
