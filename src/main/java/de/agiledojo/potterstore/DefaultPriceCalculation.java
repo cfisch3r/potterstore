@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 class DefaultPriceCalculation implements PriceCalculation {
-    private Price singlePrice;
+    private Price defaultSinglePrice;
     private ParameterRepository parameterRepository;
 
-    public DefaultPriceCalculation(Price singlePrice, ParameterRepository parameterRepository) {
-        this.singlePrice = singlePrice;
+    public DefaultPriceCalculation(Price defaultSinglePrice, ParameterRepository parameterRepository) {
+        this.defaultSinglePrice = defaultSinglePrice;
         this.parameterRepository = parameterRepository;
     }
 
@@ -16,14 +16,10 @@ class DefaultPriceCalculation implements PriceCalculation {
     public Price priceFor(List<BookId> bookIds) {
         Price singleBookPrice = getSingleBookPrice();
         BigDecimal totalAmount = singleBookPrice.getAmount().multiply(new BigDecimal(bookIds.size()));
-        var totalPrice = PriceCalculation.price(totalAmount,singleBookPrice.getCurrency());
-        return totalPrice;
+        return PriceCalculation.price(totalAmount,singleBookPrice.getCurrency());
     }
 
     private Price getSingleBookPrice() {
-        if (parameterRepository.getSingleBookPrice().isPresent())
-            return parameterRepository.getSingleBookPrice().get();
-        else
-            return singlePrice;
+            return parameterRepository.getSingleBookPrice().orElse(defaultSinglePrice);
     }
 }
