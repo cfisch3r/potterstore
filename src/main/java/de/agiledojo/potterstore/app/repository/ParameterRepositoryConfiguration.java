@@ -13,6 +13,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -20,6 +21,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories
+@EnableTransactionManagement
 public class ParameterRepositoryConfiguration {
     @Bean
     public ParameterRepository repository(@Autowired ParameterCRUDRepository crudRepository) {
@@ -64,10 +66,11 @@ public class ParameterRepositoryConfiguration {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.connection.autocommit", "false");
         properties.setProperty("show-sql", "true");
         properties.setProperty(
-                "hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+                "hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
 
         return properties;
     }

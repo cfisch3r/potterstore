@@ -2,6 +2,8 @@ package de.agiledojo.potterstore.app.repository;
 
 import de.agiledojo.potterstore.Price;
 import de.agiledojo.potterstore.ParameterRepository;
+import de.agiledojo.potterstore.PriceCalculation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,6 +11,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public class MysqlParameterRepository implements ParameterRepository {
 
     private enum PARAMETER_KEYS {
@@ -55,19 +58,10 @@ public class MysqlParameterRepository implements ParameterRepository {
     }
 
     private Price parameterToBookPrice(ParameterRecord parameterRecord) {
-        String price = parameterRecord.getParamValue();
-        String[] parts = price.split(" ");
-        return new Price(){
-            @Override
-            public BigDecimal getAmount() {
-                return BigDecimal.valueOf(Double.valueOf(parts[0]).doubleValue())
-                        .setScale(2, RoundingMode.HALF_UP);
-            }
+        String value = parameterRecord.getParamValue();
+        String[] parts = value.split(" ");
 
-            @Override
-            public Currency getCurrency() {
-                return Currency.getInstance(parts[1]);
-            }
-        };
+        return PriceCalculation.price(BigDecimal.valueOf(Double.valueOf(parts[0]).doubleValue())
+                .setScale(2, RoundingMode.HALF_UP),Currency.getInstance(parts[1]));
     }
 }
