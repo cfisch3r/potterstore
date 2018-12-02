@@ -1,6 +1,5 @@
 package de.agiledojo.potterstore.app;
 
-import org.assertj.core.api.Assertions;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +16,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT,classes = PotterStore.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT,classes = PotterStoreApplication.class)
 @TestPropertySource(properties = { "potter.single-book-price=8.32",
         "potter.db-connection-string=jdbc:mysql://localhost:3306/potter",
         "potter.db-user=potter",

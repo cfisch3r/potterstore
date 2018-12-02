@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
         "potter.db-connection-string=jdbc:mysql://127.0.0.1/potterstore",
         "potter.db-user=potter",
         "potter.db-password=secret"})
-public class PotterStoreConfigurationPropertiesTest {
+public class PotterStoreConfigurationPropertiesIntegrationTest {
 
     @TestConfiguration
     @EnableConfigurationProperties(PotterStoreConfigurationProperties.class)

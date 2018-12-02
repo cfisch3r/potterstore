@@ -12,7 +12,7 @@ import java.util.Currency;
 
 @SpringBootApplication
 @EnableConfigurationProperties(PotterStoreConfigurationProperties.class)
-public class PotterStore {
+public class PotterStoreApplication {
 
    @Bean
    public PriceCalculation priceCalculation (PotterStoreConfigurationProperties configuration, @Autowired ParameterRepository parameterRepository) {

@@ -22,9 +22,9 @@ import java.util.Currency;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ParameterRepositoryTest.MyTestConfiguration.class, ParameterRepositoryConfiguration.class})
+@ContextConfiguration(classes = {ParameterRepositoryIntegrationTest.MyTestConfiguration.class, ParameterRepositoryConfiguration.class})
 @Transactional
-public class ParameterRepositoryTest {
+public class ParameterRepositoryIntegrationTest {
 
     @TestConfiguration
     public static class MyTestConfiguration {
