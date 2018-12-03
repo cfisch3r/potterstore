@@ -15,8 +15,18 @@ class DefaultPriceCalculation implements PriceCalculation {
     @Override
     public Price priceFor(List<BookId> bookIds) {
         Price singleBookPrice = getSingleBookPrice();
-        BigDecimal totalAmount = singleBookPrice.getAmount().multiply(new BigDecimal(bookIds.size()));
+        BigDecimal totalAmount = totalAmount(bookIds, singleBookPrice.getAmount());
         return PriceCalculation.price(totalAmount,singleBookPrice.getCurrency());
+    }
+
+    private BigDecimal totalAmount(List<BookId> bookIds, BigDecimal singleBookPriceAmount) {
+        var distinctBooks = bookIds.stream().distinct().count();
+        BigDecimal totalAmount;
+        if (distinctBooks > 1)
+            totalAmount = singleBookPriceAmount.multiply(new BigDecimal(bookIds.size())).multiply(new BigDecimal(0.95));
+        else
+            totalAmount = singleBookPriceAmount.multiply(new BigDecimal(bookIds.size()));
+        return totalAmount;
     }
 
     private Price getSingleBookPrice() {
