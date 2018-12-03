@@ -1,6 +1,7 @@
 package de.agiledojo.potterstore;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 class DefaultPriceCalculation implements PriceCalculation {
@@ -21,19 +22,18 @@ class DefaultPriceCalculation implements PriceCalculation {
 
     private BigDecimal totalAmount(List<BookId> bookIds, BigDecimal singleBookPriceAmount) {
         var distinctBooks = bookIds.stream().distinct().count();
-        BigDecimal totalAmount;
-        if (distinctBooks > 1)
-            totalAmount = singleBookPriceAmount.multiply(new BigDecimal(bookIds.size())).multiply(discount(distinctBooks));
-        else
-            totalAmount = singleBookPriceAmount.multiply(new BigDecimal(bookIds.size()));
-        return totalAmount;
+        return singleBookPriceAmount.multiply(new BigDecimal(bookIds.size())).multiply(discount(distinctBooks));
     }
 
     private BigDecimal discount(long seriesSize) {
-        if (seriesSize  == 3)
-            return new BigDecimal(0.9);
-        else
-            return new BigDecimal(0.95);
+        var discounts = new HashMap<Long,Double>() {
+            {
+                put(1l,1d);
+                put(2l,0.95);
+                put(3l,0.9);
+            }
+        };
+        return new BigDecimal(discounts.get(seriesSize));
     }
 
     private Price getSingleBookPrice() {
