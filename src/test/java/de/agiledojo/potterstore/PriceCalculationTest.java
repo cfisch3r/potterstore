@@ -89,6 +89,25 @@ public class PriceCalculationTest {
         assertPrice(price, (3*8*0.9));
     }
 
+    @Test
+    public void four_different_books_get_discount() {
+        var price = priceCalculation.priceFor(List.of(bookId("book1"),
+                bookId("book2"),
+                bookId("book3"),
+                bookId("book4")));
+        assertPrice(price, (4*8*0.8));
+    }
+
+    @Test
+    public void five_different_books_get_discount() {
+        var price = priceCalculation.priceFor(List.of(bookId("book1"),
+                bookId("book2"),
+                bookId("book3"),
+                bookId("book4"),
+                bookId("book5")));
+        assertPrice(price, (5*8*0.75));
+    }
+
     //    @Test
 //    public void two_different_and_one_identical_book_get_combined_price() {
 //        var price = calculator.priceFor(asList(BOOK1, BOOK2, BOOK1));

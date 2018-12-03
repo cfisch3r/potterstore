@@ -31,6 +31,8 @@ class DefaultPriceCalculation implements PriceCalculation {
                 put(1l,1d);
                 put(2l,0.95);
                 put(3l,0.9);
+                put(4l,0.8);
+                put(5l,0.75);
             }
         };
         return new BigDecimal(discounts.get(seriesSize));
