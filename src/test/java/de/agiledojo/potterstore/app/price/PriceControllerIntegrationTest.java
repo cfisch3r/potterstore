@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.List;
 
@@ -53,18 +54,8 @@ public class PriceControllerIntegrationTest {
 
     @Before
     public void setUp(){
-        var price = new Price() {
-
-            @Override
-            public BigDecimal getAmount() {
-                return new BigDecimal(8.45);
-            }
-
-            @Override
-            public Currency getCurrency() {
-                return Currency.getInstance("EUR");
-            }
-        };
+        var price = PriceCalculation.price(new BigDecimal(8.45).setScale(2, RoundingMode.HALF_UP),
+                Currency.getInstance("EUR"));
         when(priceCalculation.priceFor(ArgumentMatchers.anyList())).thenReturn(price);
     }
 

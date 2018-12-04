@@ -1,5 +1,6 @@
 package de.agiledojo.potterstore.app;
 
+import de.agiledojo.potterstore.ParameterRepository;
 import de.agiledojo.potterstore.PriceCalculation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -15,10 +16,11 @@ import java.util.Currency;
 public class PotterStoreApplication {
 
     @Bean
-    PriceCalculation priceCalculation(@Autowired PotterStoreConfigurationProperties properties) {
+    PriceCalculation priceCalculation(@Autowired PotterStoreConfigurationProperties properties,
+                                      @Autowired ParameterRepository parameterRepository) {
         var defaultPrice = PriceCalculation.price(new BigDecimal(properties.getSingleBookPrice().doubleValue()),
                 Currency.getInstance(properties.getCurrencyCode()));
-        return PriceCalculation.create(defaultPrice);
+        return PriceCalculation.create(defaultPrice, parameterRepository);
     }
 
     public static void main(String[] args) {

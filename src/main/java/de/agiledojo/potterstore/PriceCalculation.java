@@ -29,8 +29,8 @@ public interface PriceCalculation {
         };
     }
 
-    static PriceCalculation create(Price defaultPrice) {
-        return new DefaultPriceCalculation(defaultPrice);
+    static PriceCalculation create(Price defaultPrice, ParameterRepository parameterRepository) {
+        return new DefaultPriceCalculation(defaultPrice, parameterRepository);
     }
 
     Price priceFor(List<BookId> bookId);

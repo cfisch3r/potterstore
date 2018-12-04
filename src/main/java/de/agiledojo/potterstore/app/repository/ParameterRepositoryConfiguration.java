@@ -1,5 +1,6 @@
 package de.agiledojo.potterstore.app.repository;
 
+import de.agiledojo.potterstore.ParameterRepository;
 import de.agiledojo.potterstore.app.PotterStoreConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,10 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class ParameterRepositoryConfiguration {
 
+    @Bean
+    public ParameterRepository repository(@Autowired ParameterCRUDRepository crudRepository) {
+        return new MysqlParameterRepository(crudRepository);
+    }
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Autowired DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();

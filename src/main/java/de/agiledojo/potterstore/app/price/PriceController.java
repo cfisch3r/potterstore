@@ -3,13 +3,13 @@ package de.agiledojo.potterstore.app.price;
 import de.agiledojo.potterstore.BookId;
 import de.agiledojo.potterstore.Price;
 import de.agiledojo.potterstore.PriceCalculation;
+import de.agiledojo.potterstore.app.JSONPrice;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
