@@ -17,34 +17,43 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT,classes = PotterStoreApplication.class)
-@TestPropertySource(properties = {
-        "potter.single-book-price=8.32",
-        "potter.currency-code=EUR",
-        "potter.db-connection-string=jdbc:mysql://localhost:3308/potter",
-        "potter.db-user=potter",
-        "potter.db-password=secret"})
-public class CalculatingPricesAcceptanceTest {
+@TestPropertySource(properties = { "potter.single-book-price=8.32",
+    "potter.currency-code=EUR",
+    "potter.db-connection-string=jdbc:mysql://localhost:3307/potter",
+    "potter.db-user=potter",
+    "potter.db-password=secret"})
+public class SettingParametersAcceptanceTest {
 
     @ClassRule
     public static DockerRule mysqlContainer =
-            MysqlDockerContainer.create("3308","potter","potter","secret");
+            MysqlDockerContainer.create("3307","potter","potter","secret");
 
     @LocalServerPort
     int port;
 
-
     @Test
-    public void defaultPriceIsReturnedForOneBook() {
+    public void priceIsCalculatedBasedOnSingleBookPriceParameter() {
+        given()
+                .port(port)
+                .contentType(JSON)
+                .body("{\"amount\":7.23,\n\"currency\":\"EUR\"}")
+                .when()
+                .put("/parameters/price")
+                .then().assertThat()
+                .statusCode(OK.value());
+
         given()
                 .port(port)
                 .contentType(JSON)
                 .body(new PriceRequest("book1").json())
-        .when()
+                .when()
                 .post("/price")
-        .then().assertThat()
+                .then().assertThat()
                 .statusCode(OK.value())
-                .body("amount", response -> equalTo(8.32f))
+                .body("amount", (response) -> equalTo(7.23f))
                 .body("currency", value -> equalTo("€"));
+
     }
+
 
 }

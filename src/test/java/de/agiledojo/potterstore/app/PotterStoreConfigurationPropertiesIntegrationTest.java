@@ -12,7 +12,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @TestPropertySource(properties = {
         "potter.single-book-price=5.43",
-        "potter.currency-code=EUR"})
+        "potter.currency-code=EUR",
+        "potter.db-connection-string=jdbc:mysql://localhost:3306/potter",
+        "potter.db-user=potter",
+        "potter.db-password=secret"})
 public class PotterStoreConfigurationPropertiesIntegrationTest {
 
     @Configuration
@@ -37,4 +40,21 @@ public class PotterStoreConfigurationPropertiesIntegrationTest {
         Assertions.assertThat(currencyCode).isEqualTo("EUR");
     }
 
+    @Test
+    public void providesDbConnectionString() {
+        String currencyCode = configuration.getDbConnectionString();
+        Assertions.assertThat(currencyCode).isEqualTo("jdbc:mysql://localhost:3306/potter");
+    }
+
+    @Test
+    public void providesDbUser() {
+        String currencyCode = configuration.getDbUser();
+        Assertions.assertThat(currencyCode).isEqualTo("potter");
+    }
+
+    @Test
+    public void providesDbPassword() {
+        String currencyCode = configuration.getDbPassword();
+        Assertions.assertThat(currencyCode).isEqualTo("secret");
+    }
 }
