@@ -1,10 +1,25 @@
 package de.agiledojo.potterstore;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class DefaultPriceCalculation implements PriceCalculation {
+
+    private static <T> Predicate<T> distinctByKey(
+            Function<? super T, ?> ke) {
+
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(ke.apply(t), Boolean.TRUE) == null;
+    }
+
     private Price defaultSinglePrice;
     private ParameterRepository parameterRepository;
 
@@ -21,8 +36,19 @@ class DefaultPriceCalculation implements PriceCalculation {
     }
 
     private BigDecimal totalAmount(List<BookId> bookIds, BigDecimal singleBookPriceAmount) {
-        var distinctBooks = bookIds.stream().distinct().count();
-        return singleBookPriceAmount.multiply(new BigDecimal(bookIds.size())).multiply(discount(distinctBooks));
+        var amount = new BigDecimal(0);
+        if (bookIds.size() == 0)
+            return amount;
+        else {
+            var distinctBooks = bookIds.stream().filter(distinctByKey(id -> id.getId())).collect(Collectors.toList());
+            var numberOfdistinctBooks = distinctBooks.size();
+            amount = amount.add(singleBookPriceAmount.multiply(new BigDecimal(numberOfdistinctBooks)).multiply(discount(numberOfdistinctBooks)));
+            var remainingBooks = new ArrayList<BookId>(bookIds);
+            for (var bookId : distinctBooks) {
+                remainingBooks.remove(bookId);
+            }
+            return amount.add(totalAmount(remainingBooks,singleBookPriceAmount));
+        }
     }
 
     private BigDecimal discount(long seriesSize) {

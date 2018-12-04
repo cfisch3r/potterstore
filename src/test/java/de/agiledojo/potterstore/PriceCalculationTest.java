@@ -8,6 +8,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +61,12 @@ public class PriceCalculationTest {
     }
 
     @Test
+    public void emptyBookIdListReturnsZeroPrice() {
+        var price = priceCalculation.priceFor(Collections.emptyList());
+        assertPrice(price, 0.00f, "EUR");
+    }
+
+    @Test
     public void priceForMultipleBooksWithSameId() {
         var bookId = bookId("book1");
         var price = priceCalculation.priceFor(List.of(bookId,bookId));
@@ -106,6 +113,26 @@ public class PriceCalculationTest {
                 bookId("book4"),
                 bookId("book5")));
         assertPrice(price, (5*8*0.75));
+    }
+
+    @Test
+    public void multiple_book_series() {
+        var price = priceCalculation.priceFor(List.of(bookId("book1"),
+                bookId("book1"),
+                bookId("book2"),
+                bookId("book2")));
+        assertPrice(price, (2*2*8*0.95));
+    }
+
+    @Test
+    public void complex_calculation() {
+        var price = priceCalculation.priceFor(List.of(bookId("book1"),
+                bookId("book3"),
+                bookId("book2"),
+                bookId("book3"),
+                bookId("book3"),
+                bookId("book2")));
+        assertPrice(price, (3*8*0.9 + 2*8*0.95 +8 ));
     }
 
     //    @Test
