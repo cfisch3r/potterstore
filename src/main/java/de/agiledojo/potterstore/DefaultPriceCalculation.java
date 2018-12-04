@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 class DefaultPriceCalculation implements PriceCalculation {
 
@@ -36,19 +35,30 @@ class DefaultPriceCalculation implements PriceCalculation {
     }
 
     private BigDecimal totalAmount(List<BookId> bookIds, BigDecimal singleBookPriceAmount) {
-        var amount = new BigDecimal(0);
         if (bookIds.size() == 0)
-            return amount;
-        else {
-            var distinctBooks = bookIds.stream().filter(distinctByKey(id -> id.getId())).collect(Collectors.toList());
-            var numberOfdistinctBooks = distinctBooks.size();
-            amount = amount.add(singleBookPriceAmount.multiply(new BigDecimal(numberOfdistinctBooks)).multiply(discount(numberOfdistinctBooks)));
-            var remainingBooks = new ArrayList<BookId>(bookIds);
-            for (var bookId : distinctBooks) {
-                remainingBooks.remove(bookId);
-            }
-            return amount.add(totalAmount(remainingBooks,singleBookPriceAmount));
+            return new BigDecimal(0);
+
+        var distinctBooks = distinctBooks(bookIds);
+        var amount = seriesPrice(singleBookPriceAmount, distinctBooks.size());
+        return amount.add(totalAmount(substract(bookIds, distinctBooks),singleBookPriceAmount));
+
+    }
+
+    private List<BookId> distinctBooks(List<BookId> bookIds) {
+        return bookIds.stream().filter(distinctByKey(id -> id.getId())).collect(Collectors.toList());
+    }
+
+    private BigDecimal seriesPrice(BigDecimal singleBookPriceAmount, int numberOfDistinctBooks) {
+        return singleBookPriceAmount.multiply(new BigDecimal(numberOfDistinctBooks))
+                .multiply(discount(numberOfDistinctBooks));
+    }
+
+    private ArrayList<BookId> substract(List<BookId> bookIds, List<BookId> distinctBooks) {
+        var remainingBooks = new ArrayList<BookId>(bookIds);
+        for (var bookId : distinctBooks) {
+            remainingBooks.remove(bookId);
         }
+        return remainingBooks;
     }
 
     private BigDecimal discount(long seriesSize) {

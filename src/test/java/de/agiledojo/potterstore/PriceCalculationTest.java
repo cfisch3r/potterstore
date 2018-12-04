@@ -72,16 +72,6 @@ public class PriceCalculationTest {
         var price = priceCalculation.priceFor(List.of(bookId,bookId));
         assertPrice(price, 16.00f, "EUR");
     }
-
-    private void assertPrice(Price price, double amount, String currencyCode) {
-        assertThat(price.getAmount()).isEqualTo(new BigDecimal(amount).setScale(2, RoundingMode.HALF_UP));
-        assertThat(price.getCurrency()).isEqualTo(Currency.getInstance(currencyCode));
-    }
-
-    private void assertPrice(Price price, double amount) {
-        assertPrice(price,amount,"EUR");
-    }
-
     @Test
     public void two_different_books_get_discount() {
         var price = priceCalculation.priceFor(List.of(bookId("book1"),bookId("book2")));
@@ -135,34 +125,14 @@ public class PriceCalculationTest {
         assertPrice(price, (3*8*0.9 + 2*8*0.95 +8 ));
     }
 
-    //    @Test
-//    public void two_different_and_one_identical_book_get_combined_price() {
-//        var price = calculator.priceFor(asList(BOOK1, BOOK2, BOOK1));
-//        Assert.assertEquals(new Price(8*2*0.95+8),price);
-//    }
-//
-//    @Test
-//    public void two_different_and_one_identical_book_different_order_get_combined_price() {
-//        var price = calculator.priceFor(asList(BOOK1, BOOK1, BOOK2));
-//        Assert.assertEquals(new Price(8*2*0.95+8),price);
-//    }
-//
-//    @Test
-//    public void three_books_from_series_get_discount() {
-//        var price = calculator.priceFor(asList(BOOK1, BOOK2, BOOK3));
-//        Assert.assertEquals(new Price(8*3*0.9),price);
-//    }
-//
-//    @Test
-//    public void four_books_from_series_get_discount() {
-//        var price = calculator.priceFor(asList(BOOK1, BOOK2, BOOK3, BOOK4));
-//        Assert.assertEquals(new Price(8*4*0.8),price);
-//    }
-//
-//    @Test
-//    public void five_books_from_series_get_discount() {
-//        var price = calculator.priceFor(asList(BOOK1, BOOK2, BOOK3, BOOK4, BOOK5));
-//        Assert.assertEquals(new Price(8*5*0.75),price);
-//    }
+
+    private void assertPrice(Price price, double amount, String currencyCode) {
+        assertThat(price.getAmount()).isEqualTo(new BigDecimal(amount).setScale(2, RoundingMode.HALF_UP));
+        assertThat(price.getCurrency()).isEqualTo(Currency.getInstance(currencyCode));
+    }
+
+    private void assertPrice(Price price, double amount) {
+        assertPrice(price,amount,"EUR");
+    }
 
 }
