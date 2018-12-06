@@ -11,6 +11,16 @@ The goal of the excercise is to build a REST Service which provides a price calc
 	* 20% for 4 book series
 	* 25% for 5 book series
 
+# Branches
+
+Branch   | Description
+---------|-------------
+part1    | start of first User Story
+part1end | solution of first User Story
+part2    | start of second User Story
+part2end | solution of second User Story 
+
+
 # Technical Guides
 
 ## Configuration Properties
